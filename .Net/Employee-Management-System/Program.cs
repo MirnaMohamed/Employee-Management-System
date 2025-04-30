@@ -1,4 +1,10 @@
 
+using Employee_Management_System.Context;
+using Employee_Management_System.Entities;
+using Employee_Management_System.Repositories;
+using Employee_Management_System.Services;
+using Microsoft.EntityFrameworkCore;
+
 namespace Employee_Management_System
 {
     public class Program
@@ -8,6 +14,10 @@ namespace Employee_Management_System
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddDbContext<DataContext>(options =>
+                options.UseSqlite(builder.Configuration["ConnectionStrings:Default"]));
+            builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+            builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
