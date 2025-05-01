@@ -7,6 +7,7 @@
         void Delete(T entity);
         T GetById(int id);
         IEnumerable<T> GetAll();
+        IEnumerable<T> GetAll(int pageNum, int pageSize = 5);
 
         void SaveChanges();
 

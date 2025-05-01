@@ -1,5 +1,6 @@
 ﻿
 using Employee_Management_System.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace Employee_Management_System.Repositories
 {
@@ -24,6 +25,12 @@ namespace Employee_Management_System.Repositories
         {
             return dbContext.Set<T>();
         }
+        public IEnumerable<T> GetAll(int pageNum, int pageSize = 5)
+        {
+            return dbContext.Set<T>()
+                .Skip((pageNum -1) * pageSize) //one-indexed
+                .Take(pageSize);
+        }
 
         public T GetById(int id)
         {
@@ -37,7 +44,7 @@ namespace Employee_Management_System.Repositories
 
         public void Update(T entity)
         {
-            dbContext.Set<T>().Update(entity);
+            dbContext.Entry<T>(entity).State = EntityState.Modified;
         }
 
     }

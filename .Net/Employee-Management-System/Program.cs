@@ -1,4 +1,5 @@
 
+using Employee_Management_System.Configurations;
 using Employee_Management_System.Context;
 using Employee_Management_System.Entities;
 using Employee_Management_System.Repositories;
@@ -18,6 +19,7 @@ namespace Employee_Management_System
                 options.UseSqlite(builder.Configuration["ConnectionStrings:Default"]));
             builder.Services.AddScoped<IEmployeeService, EmployeeService>();
             builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            builder.Services.AddAutoMapper(typeof(MapperConfig));
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

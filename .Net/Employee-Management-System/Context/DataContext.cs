@@ -9,11 +9,8 @@ namespace Employee_Management_System.Context
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
         }
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        public DataContext()
         {
-            base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Employee>()
-                .Property(e => e.FullName).HasComputedColumnSql("FirstName + ' ' + LastName", stored: false);
         }
     }
 }

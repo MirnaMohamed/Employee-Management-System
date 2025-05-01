@@ -18,7 +18,7 @@ namespace Employee_Management_System.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     FirstName = table.Column<string>(type: "TEXT", maxLength: 25, nullable: false),
                     LastName = table.Column<string>(type: "TEXT", maxLength: 25, nullable: false),
-                    FullName = table.Column<string>(type: "TEXT", nullable: false, computedColumnSql: "FirstName + ' ' + LastName", stored: false),
+                    FullName = table.Column<string>(type: "TEXT", nullable: false, computedColumnSql: "FirstName || ' ' || LastName"),
                     DepartmentId = table.Column<int>(type: "INTEGER", nullable: true),
                     Email = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
                     Position = table.Column<string>(type: "TEXT", maxLength: 15, nullable: false)

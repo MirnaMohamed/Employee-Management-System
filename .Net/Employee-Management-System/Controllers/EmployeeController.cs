@@ -1,4 +1,5 @@
-﻿using Employee_Management_System.Entities;
+﻿using Employee_Management_System.DTOs;
+using Employee_Management_System.Entities;
 using Employee_Management_System.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,17 +20,26 @@ namespace Employee_Management_System.Controllers
         [HttpGet]
         public IActionResult GetAllEmployees()
         {
-            List<Employee> employees = _employeeService.GetAllEmployees().Result.ToList();
+            //get all employees no pagination
+            List<DisplayEmployeeDTO> employees = _employeeService.GetAllEmployees();
+            return Ok(employees);
+        }
+        [HttpGet("page/{pageNum}")]
+        public IActionResult GetAllEmployees([FromQuery] int? pageSize, int pageNum = 1)
+        {
+            List<DisplayEmployeeDTO> employees = _employeeService.GetAllEmployees(pageNum, pageSize);
             return Ok(employees);
         }
         [HttpGet("{id}")]
         public IActionResult GetEmployeeById(int id)
         {
-            Employee employee = _employeeService.GetEmployeeById(id).Result;
+            DisplayEmployeeDTO? employee = _employeeService.GetEmployeeById(id);
+            if (employee == null)
+                return NotFound($"Employee with ID: {id} is not found");
             return Ok(employee);
         }
         [HttpPost]
-        public IActionResult AddEmployee([FromBody] Employee employee)
+        public IActionResult AddEmployee([FromBody] AddEmployeeDTO employee)
         {
             if (employee == null)
             {
@@ -37,7 +47,7 @@ namespace Employee_Management_System.Controllers
             }
             else
             {
-                if(ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
                     _employeeService.AddEmployee(employee);
                     return Ok();
@@ -49,10 +59,14 @@ namespace Employee_Management_System.Controllers
             }
         }
         [HttpPut("{id}")]
-        public IActionResult UpdateEmployee(int id, [FromBody] Employee employee)
+        public IActionResult UpdateEmployee(int id, [FromBody] AddEmployeeDTO employee)
         {
             // Logic to update employee
-            if (employee == null)
+            if(_employeeService.GetEmployeeById(id) == null)
+            {
+                return NotFound($"Employee with ID: {id} is not found");
+            }
+            else if (employee == null)
             {
                 return BadRequest("Employee cannot be null");
             }
@@ -60,15 +74,14 @@ namespace Employee_Management_System.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _employeeService.UpdateEmployee(employee);
-                    return Ok();
+                    _employeeService.UpdateEmployee(id, employee);
+                    return NoContent();
                 }
                 else
                 {
                     return BadRequest(ModelState);
                 }
-            }
-            return NoContent();
+            };
         }
         [HttpDelete("{id}")]
         public IActionResult DeleteEmployee(int id)
@@ -80,10 +93,16 @@ namespace Employee_Management_System.Controllers
             }
             else
             {
-                _employeeService.DeleteEmployee(id);
-                return Ok();
+                try
+                {
+                    _employeeService.DeleteEmployee(id);
+                    return NoContent();
+                }
+                catch(ArgumentException)
+                {
+                    return NotFound($"Employee with ID {id} not found");
+                }
             }
-            return NoContent();
         }
     }
 }

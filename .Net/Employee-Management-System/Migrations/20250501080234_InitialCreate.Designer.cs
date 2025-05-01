@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Employee_Management_System.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250430183901_InitialCreate")]
+    [Migration("20250501080234_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -42,7 +42,7 @@ namespace Employee_Management_System.Migrations
                         .IsRequired()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("TEXT")
-                        .HasComputedColumnSql("FirstName + ' ' + LastName", false);
+                        .HasComputedColumnSql("FirstName || ' ' || LastName");
 
                     b.Property<string>("LastName")
                         .IsRequired()

@@ -39,7 +39,7 @@ namespace Employee_Management_System.Migrations
                         .IsRequired()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("TEXT")
-                        .HasComputedColumnSql("FirstName + ' ' + LastName", false);
+                        .HasComputedColumnSql("FirstName || ' ' || LastName");
 
                     b.Property<string>("LastName")
                         .IsRequired()

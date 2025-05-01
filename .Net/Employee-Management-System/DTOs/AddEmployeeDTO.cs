@@ -1,17 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Employee_Management_System.Entities
+namespace Employee_Management_System.DTOs
 {
-    public class Employee
+    public class AddEmployeeDTO
     {
-        [Key]
-        public int Id { get; set; }
-        [MaxLength(25)] 
+        [StringLength(25, MinimumLength =3)]
         public string FirstName { get; set; }
-        [MaxLength(25)]
+        [StringLength(25, MinimumLength = 3)]
         public string LastName { get; set; }
         public int? DepartmentId { get; set; }
-        [MaxLength(50)]
+        [MaxLength(50), RegularExpression("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")]
         public required string Email { get; set; }
         [MaxLength(15)]
         public string Position { get; set; }
