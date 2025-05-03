@@ -5,6 +5,7 @@ using Employee_Management_System.Entities;
 using Employee_Management_System.Repositories;
 using Employee_Management_System.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Employee_Management_System
 {
@@ -21,6 +22,19 @@ namespace Employee_Management_System
             builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             builder.Services.AddAutoMapper(typeof(MapperConfig));
 
+            //add CORS
+            var allowedOrigins = builder.Configuration.GetValue<string>("AllowedOrigins")!.Split(",");
+            builder.Services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(policy =>
+                {
+                    //to allow requests from Angular app
+                    policy.WithOrigins(allowedOrigins)
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
+
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -36,7 +50,7 @@ namespace Employee_Management_System
             }
 
             app.UseHttpsRedirection();
-
+            app.UseCors();
             app.UseAuthorization();
 
 
