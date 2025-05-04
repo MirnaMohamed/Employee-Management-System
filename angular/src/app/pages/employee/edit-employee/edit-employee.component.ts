@@ -49,8 +49,10 @@ export class EditEmployeeComponent implements OnInit {
         position: emp.position
       });
 
+      console.log(this.employeeForm.get('departmentId')?.errors);
     });
   }
+  
   
   GoBack() {
     this.location.back();

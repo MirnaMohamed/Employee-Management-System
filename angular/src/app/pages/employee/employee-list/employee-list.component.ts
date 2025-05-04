@@ -16,15 +16,24 @@ export class EmployeeListComponent implements OnInit {
   employeeList: DisplayEmployeeDto[] = [];
 
   ngOnInit(): void {
-    this.employeeService.getEmployeeList().subscribe((data) => {
-      this.employeeList = data;
-    });
+    this.loadEmployees();
   }
+  loadEmployees(){
+    this.employeeService.getEmployeeList().subscribe({
+      next: (res) => {
+        this.employeeList = res;
+      },
+      error: (err) => {
+        this.toastr.error('Failed to load employees', 'Error ' + err.status);
+      }
+      });
+  }
+
   deleteEmployee(id: number) {
     this.employeeService.deleteEmployee(id).subscribe({
       next: () => {
         this.toastr.success('Employee deleted successfully', 'Success');
-        this.ngOnInit();
+        this.loadEmployees();
       },
       error: (e) => { 
         this.toastr.error(e.error,  'Error ' + e.status, {
@@ -39,4 +48,9 @@ export class EmployeeListComponent implements OnInit {
       this.router.navigate(['/employee/edit', id]) 
     );
   }
+  // onSearchInput(searchItem: string) {
+  //   this.employeeService.searchEmployee(searchItem).subscribe((data) => {
+  //     this.employeeList = data;
+  //   });
+  // }
 }

@@ -191,3 +191,12 @@
       width: 25em;
     }
   }
+
+  .ng-valid[required], .ng-valid.required  {
+    border-left: 5px solid #42A948; /* green */
+  }
+  .ng-invalid:not(form)  {
+    border: 3px solid #e4615f; /* red */
+  }
+
+  

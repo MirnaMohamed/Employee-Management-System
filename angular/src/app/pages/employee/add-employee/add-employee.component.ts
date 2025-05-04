@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EmployeeService } from '../../../services/employee.service';
 import { AddEmployeeDto } from '../../../models/employee/add-employee-dto';
 import { Location } from '@angular/common';
@@ -15,8 +15,8 @@ export class AddEmployeeComponent {
   
   constructor(private location: Location,
     private employeeService: EmployeeService,
-    private toastr: ToastrService
-  ) { }
+    private toastr: ToastrService)
+   { }
 
   employeeForm: FormGroup = new FormGroup({
     firstName: new FormControl<string>(''),
@@ -25,6 +25,8 @@ export class AddEmployeeComponent {
     departmentId: new FormControl<number| null>(null),
     position: new FormControl<string>('')
   });
+  ;
+
   onSubmit() {
     let employee = this.employeeForm.value as AddEmployeeDto;
     if (this.employeeForm.valid)
@@ -40,6 +42,9 @@ export class AddEmployeeComponent {
         });
         }
       });
+  }
+
+  validateInput(controlName: string) {
   }
 
   GoBack() {
