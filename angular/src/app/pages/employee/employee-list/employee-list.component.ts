@@ -7,6 +7,7 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-employee-list',
   templateUrl: './employee-list.component.html',
+  imports: [RouterOutlet, RouterLink, RouterLinkActive],
   styleUrl: './employee-list.component.css'
 })
 export class EmployeeListComponent implements OnInit {
