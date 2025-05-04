@@ -3,6 +3,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { EmployeeService } from '../../../services/employee.service';
 import { AddEmployeeDto } from '../../../models/employee/add-employee-dto';
 import { Location } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-employee',
@@ -13,7 +14,9 @@ import { Location } from '@angular/common';
 export class AddEmployeeComponent {
   
   constructor(private location: Location,
-    private employeeService: EmployeeService) { }
+    private employeeService: EmployeeService,
+    private toastr: ToastrService
+  ) { }
 
   employeeForm: FormGroup = new FormGroup({
     firstName: new FormControl<string>(''),
@@ -28,9 +31,13 @@ export class AddEmployeeComponent {
       this.employeeService.addEmployee(employee).subscribe({
         next: () => {
           this.location.back();
+          this.toastr.success('Employee added successfully', 'Success');
         },
-        error: (err) => {
-          console.error('Failed to add employee:', err);
+        
+        error: (e) => { 
+          this.toastr.error(e.error,  'Error ' + e.status, {
+          timeOut: 3000
+        });
         }
       });
   }
