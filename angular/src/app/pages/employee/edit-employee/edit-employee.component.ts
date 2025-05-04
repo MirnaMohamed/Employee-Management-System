@@ -4,6 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { EmployeeService } from '../../../services/employee.service';
 import { AddEmployeeDto } from '../../../models/employee/add-employee-dto';
 import { Location } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-edit-employee',
@@ -19,7 +20,8 @@ export class EditEmployeeComponent implements OnInit {
     private route: ActivatedRoute,
     private employeeService: EmployeeService,
     private router: Router, 
-    private location: Location
+    private location: Location,
+    private toastr: ToastrService
   ) {
     this.employeeForm = new FormGroup({
       firstName: new FormControl(''),
@@ -60,8 +62,15 @@ export class EditEmployeeComponent implements OnInit {
       const employee = this.employeeForm.value as AddEmployeeDto;
       console.log(employee);
       this.employeeService.updateEmployee(this.employeeId, employee).subscribe({
-        next: () => this.router.navigate(['/employee']),
-        error: (err) => console.error(err)
+        next: () => {
+          this.router.navigate(['/employee']);
+          this.toastr.success('Employee updated successfully', 'Success');
+        },
+        error: (e) => {   
+          this.toastr.error(e.error,  'Error ' + e.status, {
+          timeOut: 3000
+        });
+        }
       });
     }
   }

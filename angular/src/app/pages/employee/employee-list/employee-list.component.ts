@@ -21,7 +21,7 @@ export class EmployeeListComponent implements OnInit {
     });
   }
   deleteEmployee(id: number) {
-    this.employeeService.deleteEmployee(500).subscribe({
+    this.employeeService.deleteEmployee(id).subscribe({
       next: () => {
         this.toastr.success('Employee deleted successfully', 'Success');
         this.ngOnInit();
