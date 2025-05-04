@@ -88,7 +88,7 @@ namespace Employee_Management_System.Services
         {
             Employee existingEmployee = _mapper.Map<Employee>(employee);
             existingEmployee.Id = id;
-            _employeeRepository.Update(existingEmployee);
+            _employeeRepository.Update(id, existingEmployee);
             _employeeRepository.SaveChanges();
         }
     }

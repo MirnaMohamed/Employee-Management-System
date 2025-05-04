@@ -28,7 +28,7 @@ namespace Employee_Management_System.Repositories
         public IEnumerable<T> GetAll(int pageNum, int pageSize = 5)
         {
             return dbContext.Set<T>()
-                .Skip((pageNum -1) * pageSize) //one-indexed
+                .Skip((pageNum - 1) * pageSize) //one-indexed
                 .Take(pageSize);
         }
 
@@ -42,10 +42,14 @@ namespace Employee_Management_System.Repositories
             dbContext.SaveChanges();
         }
 
-        public void Update(T entity)
+        public void Update(object key, T entity)
         {
-            dbContext.Entry<T>(entity).State = EntityState.Modified;
-        }
+            var existing = dbContext.Set<T>().Find(key);
+            if (existing != null)
+            {
+                dbContext.Entry(existing).CurrentValues.SetValues(entity);
+            }
 
+        }
     }
 }

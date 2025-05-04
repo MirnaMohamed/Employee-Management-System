@@ -10,7 +10,8 @@ namespace Employee_Management_System.Configurations
         public MapperConfig()
         {
             DataContext context = new DataContext();
-            CreateMap<Employee, DisplayEmployeeDTO>();
+            CreateMap<Employee, DisplayEmployeeDTO>()
+                .AfterMap((src, dest) => dest.FullName = $"{src.FirstName} {src.LastName}");
             CreateMap<AddEmployeeDTO, Employee>()
                 .ReverseMap();
         }

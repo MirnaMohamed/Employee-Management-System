@@ -1,28 +1,29 @@
-<table class="table table-hover table-bordered">
-    <thead>
-        <tr>
-        <th>Employee ID</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Email</th>
-        <th>Position</th>
-        <th>Department ID</th>
-        </tr>
-    </thead>
-    <tbody>
-        @for(employee of employeeList; track $index) {
-        <tr>
-        <td>{{ employee.id }}</td>
-        <td>{{ employee.firstName }}</td>
-        <td>{{ employee.lastName }}</td>
-        <td>{{ employee.email }}</td>
-        <td>{{ employee.position }}</td>
-        <td>{{ employee.departmentId }}</td>
-        <td>
-            <!-- <button class="btn btn-primary" (click)="editEmployee(employee.id)">Edit</button>
-            <button class="btn btn-danger" (click)="deleteEmployee(employee.id)">Delete</button> -->
-        </td>
-        </tr>
-    }
-    </tbody>
-</table>
+<div class="table-responsive mx-sm-3 mx-5 mt-3 ">
+    <table class="table table-hover table-bordered text-center">
+        <thead class="thead-dark align-middle" >
+            <tr>
+            <th class="d-none d-md-table-cell" scope="col">Employee ID</th>
+            <th scope="col">Full Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Position</th>
+            <th scope="col">Department ID</th>
+            <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for(employee of employeeList; track $index) {
+            <tr>
+            <td class="d-none d-md-table-cell" scope="row">{{ employee.id }}</td>
+            <td>{{ employee.fullName }}</td>
+            <td class="text-wrap">{{ employee.email }}</td>
+            <td>{{ employee.position }}</td>
+            <td>{{ employee.departmentId }}</td>
+            <td class="d-flex justify-content-around">
+                <button class="btn btn-primary" (click)="editEmployee(employee.id)">Edit</button>
+                <button class="btn btn-danger" (click)="deleteEmployee(employee.id)">Delete</button>
+            </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
